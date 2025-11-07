@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeHubMedia</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font for a clean look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #1a202c; /* Dark background for a "dark mode" feel */
+      }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen p-8">
+  <div class="container mx-auto max-w-2xl">
+    <!-- Post Creation Form -->
+    <div class="bg-gray-800 p-8 rounded-xl shadow-lg border border-gray-700 mb-8">
+      <h2 class="text-2xl font-bold mb-4 text-blue-400">Create a new post</h2>
+      <% p.forEach((post)=>{ %>
+
+   
+      <form action="/users/create-post/<%= post.id %>" method="POST">
+       <input 
+       name="postText"
+          placeholder="What's on your mind?"
+          rows="4"
+          class="w-full p-4 mb-4 text-white bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 placeholder-gray-400 resize-none transition-colors duration-200"
+          value = <%= post.postText %>>
+        
+        <!-- File input for image upload -->
+        
+
+        <div class="flex justify-end">
+          <button
+            type="submit"
+            class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-full shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200"
+          >
+            Post
+          </button>
+        </div>
+      </form>
+       <%  }) %>
+    </div>
+
+    <!-- User Posts Section -->
+    
+  </div>
+</body>
+</html>

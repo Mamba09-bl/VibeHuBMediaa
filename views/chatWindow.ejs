@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans antialiased">
+  <div class="container mx-auto max-w-lg p-6">
+    <div class="flex items-center justify-between mb-8">
+      <h1 class="text-3xl font-extrabold text-blue-400">VibeHub Chat</h1>
+    </div>
+
+    <div class="bg-gray-800 rounded-lg shadow-xl p-6 flex flex-col h-96">
+      <div id="chat" class="flex-grow overflow-y-auto border-b border-gray-700 pb-4 mb-4 space-y-2">
+        <p class="text-center text-gray-500 text-lg italic mt-16">Start a conversation!</p>
+      </div>
+
+      <div class="flex space-x-2">
+        <input id="input" type="text" placeholder="Type a message..."
+               class="flex-1 bg-gray-700 text-white px-4 py-2 rounded-full placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition" />
+
+        <button id="btn" class="bg-blue-500 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-600 focus:ring-2 focus:ring-blue-500">
+          Send
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- socket.io -->
+  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+<script>
+  window.currentUserId = "<%= currentUser._id %>";
+  window.receiverId = "<%= receiver._id %>";
+</script>
+  <script src="/js/comment.js"></script>
+</body>
+</html>

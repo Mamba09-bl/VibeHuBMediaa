@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= user.username %> | VibeHubMedia</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      body {
+        background-color: #121212;
+        color: #e5e7eb;
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-white min-h-screen">
+    <!-- Navbar -->
+    <nav class="w-full bg-gray-900 text-white shadow-lg mb-8">
+      <div
+        class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between"
+      >
+        <h1 class="text-2xl font-bold text-blue-400">VibeHubMedia</h1>
+
+        <div class="flex-grow flex justify-center space-x-8">
+          <a href="/home" class="flex flex-col items-center group nav-link">
+            <svg
+              class="w-6 h-6 text-gray-500 group-hover:text-blue-400 transition"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
+              ></path>
+            </svg>
+            <p
+              class="text-xs mt-1 text-gray-500 font-semibold group-hover:text-blue-400 transition"
+            >
+              Home
+            </p>
+          </a>
+
+          <a href="/profile" class="flex flex-col items-center group nav-link">
+            <svg
+              class="w-6 h-6 text-gray-500 group-hover:text-blue-400 transition"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                clip-rule="evenodd"
+                fill-rule="evenodd"
+              ></path>
+            </svg>
+            <p
+              class="text-xs mt-1 text-gray-500 font-semibold group-hover:text-blue-400 transition"
+            >
+              Profile
+            </p>
+          </a>
+        </div>
+
+        <div class="w-[150px] md:w-[150px]"></div>
+      </div>
+    </nav>
+
+    <p
+      class="text-4xl font-extrabold text-center text-gray-700 tracking-wider mt-12 mb-6"
+    >
+      Your Profile
+    </p>
+
+    <!-- Main Content: Posts (left) + Users (right) -->
+    <div class="flex max-w-6xl mx-auto gap-6">
+      <!-- Left Content (Profile + Posts) -->
+      <div class="flex-1 flex flex-col items-center">
+        <!-- Profile Header -->
+        <div
+          class="w-full max-w-2xl bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700 mb-8"
+        >
+          <div
+            class="flex items-center justify-between bg-gray-900 p-4 rounded-xl shadow-md"
+          >
+            <div class="flex items-center space-x-6">
+              <div class="relative">
+                <img
+                  src="/images/uploads/<%= user.image %>"
+                  alt="Profile Picture"
+                  class="w-20 h-20 rounded-full border-2 border-blue-500 object-cover shadow-md"
+                />
+              </div>
+
+              <div>
+                <h1 class="text-2xl font-bold text-white">
+                  <%= user.username %>
+                </h1>
+                <p class="text-sm text-gray-400"><%= user.email %></p>
+              </div>
+            </div>
+
+            <div class="ml-auto flex space-x-4">
+              <a href="/follwoing">
+                <div
+                  class="bg-blue-600 hover:bg-blue-700 transition rounded-lg px-4 py-2 shadow text-center"
+                >
+                  <p class="text-sm text-gray-200">Following</p>
+                  <p class="text-lg font-bold text-white"><%= following %></p>
+                </div>
+              </a>
+              <a href="/followers">
+                <div
+                  class="bg-green-600 hover:bg-green-700 transition rounded-lg px-4 py-2 shadow text-center"
+                >
+                  <p class="text-sm text-gray-200">Followers</p>
+                  <p class="text-lg font-bold text-white"><%= followers %></p>
+                </div>
+              </a>
+
+              <div
+                class="bg-purple-600 hover:bg-purple-700 transition rounded-lg px-4 py-2 shadow text-center"
+              >
+                <p class="text-sm text-gray-200">Posts</p>
+                <p class="text-lg font-bold text-white"><%= posts %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Create Post -->
+        <div
+          class="w-full max-w-2xl bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700 mb-8"
+        >
+          <form
+            action="/users/upload-post"
+            method="POST"
+            enctype="multipart/form-data"
+          >
+            <input
+              type="text"
+              name="postText"
+              placeholder="What's on your mind?"
+              class="w-full px-4 py-3 mb-4 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+
+            <input type="file" name="image" class="mb-4" />
+
+            <button
+              type="submit"
+              class="w-full py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold"
+            >
+              Post
+            </button>
+          </form>
+        </div>
+
+        <!-- Posts List -->
+        <% user.post.forEach((post) => { %> <% if(!post.postText == '') { %>
+        <div
+          class="w-full max-w-2xl bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700 mb-6"
+        >
+          <div class="flex items-center space-x-4 mb-4">
+            <img
+              src="/images/uploads/<%= user.image %>"
+              alt="User Profile"
+              class="w-12 h-12 rounded-full border-2 border-blue-400 object-cover"
+            />
+            <div>
+              <h3 class="font-semibold text-lg"><%= user.username %></h3>
+              <p class="text-sm text-gray-400">
+                Uploaded at: <%= new Date(post.uploadTime).toLocaleString() %>
+              </p>
+            </div>
+          </div>
+          <p class="text-lg mb-4 leading-relaxed"><%= post.postText %></p>
+
+          <% if (post.image) { %>
+          <img
+            src="/images/uploads/<%= post.image %>"
+            class="rounded-lg mt-4 mx-auto max-w-md object-contain shadow-md border border-gray-700"
+          />
+          <% } %>
+          <a
+            href="/delete/<%=post.id %>"
+            class="inline-flex items-center text-red-400 hover:text-red-500 transition-colors duration-200"
+          >
+            <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm6 0a1 1 0 112 0v6a1 1 0 11-2 0V8z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            Delete post
+          </a>
+        </div>
+        <% }%> <% }) %>
+      </div>
+
+      <!-- Right Sidebar (Users List) -->
+      <div class="w-72">
+        <button
+          id="toggleUsersBtn"
+          class="w-full mb-4 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg"
+        >
+          Show All Users
+        </button>
+
+        <div
+          id="usersList"
+          class="hidden w-full bg-gray-900 p-4 rounded-xl shadow-lg"
+        >
+          <h2 class="text-xl font-bold mb-4">All Users</h2>
+          <ul class="space-y-2">
+            <% emailsWithId.forEach((email) => { %>
+            <li
+              class="flex justify-between items-center bg-gray-800 p-2 rounded-lg"
+            >
+              <span><%= email.email %></span>
+              <form action="/follow/<%= email._id %>" method="POST">
+                <button
+                  class="px-2 py-1 bg-green-500 hover:bg-green-600 rounded text-white text-sm"
+                >
+                  Follow
+                </button>
+              </form>
+            </li>
+            <% }) %>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const toggleBtn = document.getElementById("toggleUsersBtn");
+      const usersList = document.getElementById("usersList");
+
+      toggleBtn.addEventListener("click", () => {
+        usersList.classList.toggle("hidden");
+        toggleBtn.textContent = usersList.classList.contains("hidden")
+          ? "Show All Users"
+          : "Hide All Users";
+      });
+
+      const navLinks = document.querySelectorAll(".nav-link");
+      const currentPath = window.location.pathname;
+
+      navLinks.forEach((link) => {
+        if (link.getAttribute("href") === currentPath) {
+          const svg = link.querySelector("svg");
+          const p = link.querySelector("p");
+          if (svg) {
+            svg.classList.remove("text-gray-500");
+            svg.classList.add("text-blue-400");
+          }
+          if (p) {
+            p.classList.remove("text-gray-500");
+            p.classList.add("text-blue-400");
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom scrollbar for a cleaner look */
+        .scrollbar-hidden::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hidden {
+            -ms-overflow-style: none; /* for Internet Explorer, Edge */
+            scrollbar-width: none; /* for Firefox */
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white font-sans antialiased">
+    <div class="container mx-auto max-w-lg p-6">
+        <div class="flex items-center justify-between mb-8">
+            <h1 class="text-3xl font-extrabold text-blue-400 tracking-tight">VibeHub Chat</h1>
+            <button id="toggleUsersBtn" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition duration-300 ease-in-out shadow-lg">
+                Show All Users
+            </button>
+        </div>
+
+        <div id="usersList" class="hidden mb-8 bg-gray-800 rounded-lg shadow-xl overflow-hidden">
+            <h2 class="text-xl font-bold p-4 bg-gray-700 border-b border-gray-600">All Users</h2>
+            <ul class="p-4 space-y-3 max-h-80 overflow-y-auto scrollbar-hidden">
+                <% if (showChat && showChat.length > 0) { %>
+                    <% showChat.forEach((email) => { %>
+                        <li class="flex justify-between items-center bg-gray-700 p-3 rounded-md shadow-md hover:bg-gray-600 transition duration-200">
+                            <span class="font-medium text-gray-200"><%= email.email %></span>
+                            <form action="/chat/<%= email._id %>" method="POST">
+                                <a href="/chatWindow/<%= email._id %>" class="px-3 py-1 bg-green-500 hover:bg-green-600 rounded-full text-white text-xs font-semibold transform hover:scale-105 transition-transform duration-200"></a>
+                            </form>
+                        </li>
+                    <% }) %>
+                <% } else { %>
+                    <li class="text-center text-gray-500 italic p-4">No users to show.</li>
+                <% } %>
+            </ul>
+        </div>
+
+       
+    </div>
+
+    <script>
+        const toggleBtn = document.getElementById("toggleUsersBtn");
+        const usersList = document.getElementById("usersList");
+
+        toggleBtn.addEventListener("click", () => {
+            usersList.classList.toggle("hidden");
+            toggleBtn.textContent = usersList.classList.contains("hidden") 
+                ? "Show All Users" 
+                : "Hide All Users";
+        });
+    </script>
+      <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+    <script src="/js/comment.js"></script>
+</body>
+</html>
