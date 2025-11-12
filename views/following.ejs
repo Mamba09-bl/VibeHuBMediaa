@@ -1,66 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title></title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Following | VibeHubMedia</title>
 
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  <style>
-    body {
-      background-color: #121212;
-      color: #E5E7EB;
-      font-family: 'Inter', sans-serif;
-    }
-  </style>
-</head>
-<body class="flex flex-col items-center p-6">
+    <style>
+      body {
+        background-color: #121212;
+        color: #e5e7eb;
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-white min-h-screen">
+    <!-- Navbar -->
+    <nav class="w-full bg-gray-900 text-white shadow-lg mb-8">
+      <div
+        class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between"
+      >
+        <h1 class="text-2xl font-bold text-blue-400">VibeHubMedia</h1>
 
-  <!-- Navbar -->
-  <nav class="w-full bg-gray-900 text-white shadow-lg mb-8">
-    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-blue-400">VibeHubMedia</h1>
-      <div class="space-x-6">
-        <a href="/home" class="hover:text-blue-400 transition">Home</a>
-        <a href="/profile" class="hover:text-blue-400 transition">Profile</a>
+        <div class="flex-grow flex justify-center space-x-8">
+          <a href="/home" class="flex flex-col items-center group nav-link">
+            <svg
+              class="w-6 h-6 text-gray-500 group-hover:text-blue-400 transition"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
+              ></path>
+            </svg>
+            <p
+              class="text-xs mt-1 text-gray-500 font-semibold group-hover:text-blue-400 transition"
+            >
+              Home
+            </p>
+          </a>
+
+          <a href="/profile" class="flex flex-col items-center group nav-link">
+            <svg
+              class="w-6 h-6 text-gray-500 group-hover:text-blue-400 transition"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                clip-rule="evenodd"
+                fill-rule="evenodd"
+              ></path>
+            </svg>
+            <p
+              class="text-xs mt-1 text-gray-500 font-semibold group-hover:text-blue-400 transition"
+            >
+              Profile
+            </p>
+          </a>
+        </div>
+
+        <div class="w-[150px] md:w-[150px]"></div>
       </div>
-    </div>
-  </nav>
+    </nav>
 
-  <!-- Followers Section -->
-  <div class="w-full max-w-3xl bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
-    <h2 class="text-2xl font-bold text-center text-blue-400 mb-6">
-    
-    </h2>
+    <!-- Page Heading -->
+    <h1 class="text-4xl font-extrabold text-center text-gray-700 mt-12 mb-8">
+      People You Follow
+    </h1>
 
-    <% if (following.length > 0) { %>
-      <ul class="space-y-4">
+    <!-- Following List -->
+    <div
+      class="max-w-4xl mx-auto bg-gray-800 p-8 rounded-2xl shadow-lg border border-gray-700"
+    >
+      <% if (following.length > 0) { %>
+      <ul class="space-y-6">
         <% following.forEach(follower => { %>
-          <li class="flex items-center justify-between bg-gray-900 p-4 rounded-lg shadow hover:shadow-lg transition">
-            
-            <!-- Follower Info -->
-            <div class="flex items-center space-x-4">
-              <img src="/images/uploads/<%= follower.image || 'default.png' %>" 
-     alt="Follower Picture"
-     class="w-20 h-20 rounded-full border-4 border-blue-500 object-cover shadow-lg">
-
-              <div>
-                <p class="font-semibold text-lg"><%= follower.username %></p>
-                <p class="text-sm text-gray-400"><%= follower.email %></p>
-              </div>
+        <li
+          class="flex items-center justify-between bg-gray-900 p-4 rounded-xl shadow-md hover:shadow-lg transition-all"
+        >
+          <div class="flex items-center space-x-4">
+            <img
+              src="/images/uploads/<%= follower.image || 'default.png' %>"
+              alt="Profile Picture"
+              class="w-16 h-16 rounded-full border-2 border-blue-500 object-cover shadow-md"
+            />
+            <div>
+              <p class="font-semibold text-lg"><%= follower.username %></p>
+              <p class="text-sm text-gray-400"><%= follower.email %></p>
             </div>
+          </div>
 
-            <!-- Follow/Unfollow Button -->
-     
-          </li>
+          <a
+            href="/unfollow/<%= follower._id %>?redirect=follwoing"
+            class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg text-white font-semibold shadow transition-all duration-200"
+          >
+            Unfollow
+          </a>
+        </li>
         <% }) %>
       </ul>
-    <% } else { %>
-      <p class="text-center text-gray-400">No followers yet 😔</p>
-    <% } %>
-  </div>
+      <% } else { %>
+      <p class="text-center text-gray-400 text-lg">
+        You’re not following anyone yet 😔
+      </p>
+      <% } %>
+    </div>
 
-</body>
+    <script>
+      const navLinks = document.querySelectorAll(".nav-link");
+      const currentPath = window.location.pathname;
+
+      navLinks.forEach((link) => {
+        if (link.getAttribute("href") === currentPath) {
+          const svg = link.querySelector("svg");
+          const p = link.querySelector("p");
+          if (svg) {
+            svg.classList.remove("text-gray-500");
+            svg.classList.add("text-blue-400");
+          }
+          if (p) {
+            p.classList.remove("text-gray-500");
+            p.classList.add("text-blue-400");
+          }
+        }
+      });
+    </script>
+  </body>
 </html>
+
