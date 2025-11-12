@@ -25,6 +25,7 @@ router.get("/profile", authMiddleware, async (req, res) => {
     populate: { path: "post" }, // this will replace post ObjectIds with actual post docs
   });
   const showpost = await userModule.findById(req.user._id).populate("post");
+  console.log(showpost);
 
   const allEmail = await userModule.find();
 
@@ -52,7 +53,7 @@ router.get("/profile", authMiddleware, async (req, res) => {
   const filterEmail = emailsWithId.filter(
     (user) => user.email !== currentUser.email
   );
-  console.log(filterEmail);
+  // console.log(filterEmail);
 
   // console.log(emailsWithId);
 
@@ -127,7 +128,7 @@ router.get("/follwoing", authMiddleware, async (req, res) => {
   const currentUser = await userModule
     .findById(req.user._id)
     .populate("following");
-  console.log(currentUser);
+  // console.log(currentUser);
 
   res.render("following", {
     followers: currentUser.followers,
@@ -184,19 +185,36 @@ router.post("/chat/:id", authMiddleware, async (req, res) => {
   res.redirect(`/chat/${receiverId}`); // go to chat with this user
 });
 
-router.get("/chatWindow/:id", authMiddleware, async (req, res) => {
-  const receiverId = req.params.id;
+// router.get("/chatWindow/:id", authMiddleware, async (req, res) => {
+//   const receiverId = req.params.id;
 
-  const messages = await message
-    .find({
-      $or: [
-        { sender: req.user._id, receiver: receiverId },
-        { sender: receiverId, receiver: req.user._id },
-      ],
-    })
-    .populate("sender receiver");
+//   const messages = await message
+//     .find({
+//       $or: [
+//         { sender: req.user._id, receiver: receiverId },
+//         { sender: receiverId, receiver: req.user._id },
+//       ],
+//     })
+//     .populate("sender receiver");
 
-  res.render("chatWindow", { messages, receiverId });
+//   res.render("chatWindow", { messages, receiverId });
+// });
+
+router.get("/unfollow/:id", authMiddleware, async (req, res) => {
+  const id = req.params.id;
+  const redirectPage = req.query.redirect;
+  const user = await userModule.findOne({ email: req.user.email });
+  user.following = user.following.filter((i) => i.toString() !== id);
+  await user.save();
+  // user.following.findByIdAndDelete(id);
+
+  console.log(user);
+
+  if (redirectPage === "profile") {
+    return res.redirect("/profile");
+  } else {
+    return res.redirect("/follwoing");
+  }
 });
 
 module.exports = router;
