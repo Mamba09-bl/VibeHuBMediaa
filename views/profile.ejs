@@ -217,14 +217,29 @@
             <li
               class="flex justify-between items-center bg-gray-800 p-2 rounded-lg"
             >
+              <% if(user.following.includes(email._id)){ %>
+              <span><%= email.email %></span>
+              <form action="/follow/<%= email._id %>" method="POST">
+                <button>
+                  <a
+                    href="/unfollow/<%= email._id %>?redirect=profile"
+                    class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg text-white font-semibold shadow transition-all duration-200"
+                  >
+                    Unfollow
+                  </a>
+                </button>
+              </form>
+
+              <% } else { %>
               <span><%= email.email %></span>
               <form action="/follow/<%= email._id %>" method="POST">
                 <button
                   class="px-2 py-1 bg-green-500 hover:bg-green-600 rounded text-white text-sm"
                 >
-                  Follow
+                  follow
                 </button>
               </form>
+              <%}%>
             </li>
             <% }) %>
           </ul>
