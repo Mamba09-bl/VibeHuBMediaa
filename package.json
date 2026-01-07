@@ -2,12 +2,10 @@
   "name": "vibehubmeida",
   "version": "1.0.0",
   "main": "app.js",
-"scripts": {
-  "start": "node app.js",
-  "test": "echo \"Error: no test specified\" && exit 1"
-}
-
-
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -26,3 +24,4 @@
     "socket.io": "^4.8.1"
   }
 }
+
